@@ -1,0 +1,46 @@
+[
+  {
+    "event_id": "EVT-001",
+    "timestamp": "2026-09-10T08:03:12Z",
+    "source": "identity",
+    "host": "idp-synthetic",
+    "user": "analyst.user",
+    "event_type": "remote_logon",
+    "summary": "Synthetic sign-in from an unusual administrative path",
+    "confidence": 80,
+    "indicators": ["unusual-source", "privileged-session"]
+  },
+  {
+    "event_id": "EVT-002",
+    "timestamp": "2026-09-10T08:07:44Z",
+    "source": "edr",
+    "host": "ws-fin-017",
+    "user": "analyst.user",
+    "event_type": "powershell",
+    "summary": "Synthetic encoded PowerShell telemetry generated for detection validation only",
+    "confidence": 75,
+    "indicators": ["script-engine", "encoded-command-metadata"]
+  },
+  {
+    "event_id": "EVT-003",
+    "timestamp": "2026-09-10T08:09:31Z",
+    "source": "edr",
+    "host": "ws-fin-017",
+    "user": "analyst.user",
+    "event_type": "credential_access",
+    "summary": "Synthetic credential-access detection event; no credential material is present",
+    "confidence": 95,
+    "indicators": ["credential-access-signal"]
+  },
+  {
+    "event_id": "EVT-004",
+    "timestamp": "2026-09-10T08:11:05Z",
+    "source": "edr",
+    "host": "ws-fin-017",
+    "user": "analyst.user",
+    "event_type": "persistence",
+    "summary": "Synthetic autorun persistence indicator for eradication workflow validation",
+    "confidence": 85,
+    "indicators": ["autorun-change"]
+  }
+]

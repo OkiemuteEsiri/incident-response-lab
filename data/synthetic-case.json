@@ -1,0 +1,11 @@
+{
+  "case_id": "IR-2026-0042",
+  "title": "Synthetic endpoint and identity compromise",
+  "severity": "high",
+  "state": "triage",
+  "opened_at": "2026-09-10T08:15:00Z",
+  "owner": "SOC-IR",
+  "critical_asset": true,
+  "business_service": "Synthetic Finance Portal",
+  "approved_containment": ["isolate_endpoint", "revoke_sessions", "reset_synthetic_identity"]
+}

@@ -2,6 +2,32 @@
 
 A defensive, recruiter-facing incident-response engineering project that demonstrates structured triage, evidence handling, containment decisioning, eradication, recovery validation, ATT&CK contextualization, repeatable reporting, and CI-tested security logic using synthetic data only.
 
+## Recruiter Quick Review
+
+For a focused technical review, use this sequence:
+
+1. **Architecture and operating model:** this README plus [`docs/architecture.md`](docs/architecture.md).
+2. **Decision logic:** [`src/engine.py`](src/engine.py) for findings, risk scoring, telemetry gaps, ATT&CK context, and containment readiness.
+3. **Evidence quality:** [`src/ingest.py`](src/ingest.py) and [`src/models.py`](src/models.py) for validation, UTC normalization, duplicate rejection, and domain contracts.
+4. **Analyst output:** [`reports/example-assessment.md`](reports/example-assessment.md).
+5. **Closure standard:** [`docs/remediation-revalidation.md`](docs/remediation-revalidation.md).
+6. **ATT&CK interpretation:** [`docs/attack-mapping.md`](docs/attack-mapping.md).
+7. **Tests and CI:** [`tests/test_engine.py`](tests/test_engine.py) and [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+See [`docs/recruiter-review.md`](docs/recruiter-review.md) for the full capability-to-evidence map.
+
+### Recruiter Signal at a Glance
+
+| Capability | Evidence |
+| --- | --- |
+| Incident triage and correlation | Deterministic assessment engine over normalized synthetic endpoint/identity evidence |
+| Evidence integrity | Fail-closed validation, duplicate rejection, immutable models, UTC normalization |
+| Risk communication | Explainable bounded scoring, stable finding identifiers, analyst-readable reporting |
+| Containment governance | Authorization-aware readiness checks and least-disruptive response framing |
+| ATT&CK contextualization | Conservative defensive mappings separated from attribution and compromise claims |
+| Remediation assurance | Explicit containment → eradication → recovery → revalidation lifecycle |
+| Engineering quality | Unit tests, compilation checks, deterministic report generation, least-privilege CI |
+
 ## Problem Statement
 Incident response programs fail when evidence is incomplete, timelines are inconsistent, containment is disruptive or unauthorized, and remediation is closed without validation. This project models a disciplined response pipeline that converts normalized evidence into deterministic findings, an explainable risk score, containment-readiness decisions, and an auditable report.
 
@@ -67,7 +93,7 @@ Relevant defensive mappings include:
 - `T1547` — Boot or Logon Autostart Execution
 - `T1562.001` — Impair Defenses
 
-Mappings describe synthetic observed behavior and do not imply actor attribution.
+Mappings describe synthetic observed behavior and do not imply actor attribution, intent, successful execution, or confirmed compromise. The mapping methodology and analyst interpretation boundaries are documented in [`docs/attack-mapping.md`](docs/attack-mapping.md).
 
 ## Usage
 
@@ -89,8 +115,16 @@ No third-party Python dependency is required.
 ## Synthetic Scenario
 The included fixture models a suspicious endpoint-and-identity incident affecting a fictional finance portal. Evidence includes synthetic identity, PowerShell telemetry, credential-access detection metadata, and persistence metadata. No credential material, malware, exploit code, production identifiers, or real victim data is present.
 
-## Remediation and Validation
-Findings are designed to drive measurable follow-up. Examples include acquiring missing telemetry, revoking synthetic sessions, validating identity containment, removing persistence indicators, retesting detection coverage, and collecting post-change evidence. A remediation is not considered complete solely because a ticket is closed; validation evidence must demonstrate the intended control state.
+## Remediation and Revalidation
+Findings are designed to drive measurable follow-up. A remediation is not considered complete solely because a ticket is closed. This project separates:
+
+- **containment** — immediate risk reduction;
+- **eradication** — removal of persistence or the underlying control failure;
+- **recovery** — restoration of required business functionality and security controls;
+- **revalidation** — post-change evidence proving the intended control state;
+- **exception governance** — explicit acceptance of residual risk, separate from technical remediation state.
+
+The minimum closure evidence and scenario-specific validation workflow are documented in [`docs/remediation-revalidation.md`](docs/remediation-revalidation.md).
 
 ## CI/CD Security Checks
 `.github/workflows/ci.yml` uses least-privilege `contents: read` permissions and performs:
@@ -98,7 +132,7 @@ Findings are designed to drive measurable follow-up. Examples include acquiring 
 - unit-test discovery;
 - deterministic generation of the synthetic assessment report.
 
-CI status must be checked in GitHub before claiming these checks passed.
+CI status must be checked against the **exact commit under review** before claiming these checks passed. A historical green run is not treated as evidence for a later commit.
 
 ## Repository Structure
 
@@ -109,7 +143,10 @@ data/
   synthetic-events.json
 docs/
   architecture.md
+  attack-mapping.md
   methodology.md
+  recruiter-review.md
+  remediation-revalidation.md
 playbooks/
   endpoint-compromise.md
 reports/
@@ -132,6 +169,7 @@ README.md
 - Explicit separation between evidence, analyst inference, and authorization.
 - Least-disruptive containment for critical services.
 - Stable finding IDs for remediation lifecycle tracking.
+- Technical remediation state is separate from exception/risk-acceptance state.
 - Offline execution and synthetic-only evidence.
 - Clear limitations and no unsupported attribution claims.
 
@@ -139,7 +177,7 @@ README.md
 Incident response engineering, SOC triage, endpoint and identity analysis, evidence normalization, timeline analysis, risk communication, ATT&CK mapping, deterministic Python design, defensive automation, remediation validation, technical documentation, unit testing, and secure CI/CD design.
 
 ## Limitations
-This is a portfolio lab, not a replacement for EDR, SIEM, SOAR, forensic acquisition, malware analysis, or incident-command platforms. The scoring model is intentionally transparent rather than statistically predictive. It does not perform live containment, host acquisition, network scanning, credential handling, exploitation, or production actions.
+This is a portfolio lab, not a replacement for EDR, SIEM, SOAR, forensic acquisition, malware analysis, or incident-command platforms. The scoring model is intentionally transparent rather than statistically predictive. It does not perform live containment, host acquisition, network scanning, credential handling, exploitation, production actions, actor attribution, or destructive remediation.
 
 ## Roadmap
 - Add evidence provenance and chain-of-custody metadata.
